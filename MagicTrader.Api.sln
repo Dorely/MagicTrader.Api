@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28729.10
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MagicTrader.Core", "MagicTrader.Core\MagicTrader.Core.csproj", "{270E5819-ABFF-4EC1-A055-A15FAFDF2122}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MagicTrader.Api", "MagicTrader.Api\MagicTrader.Api.csproj", "{1595821F-548F-40B7-BAF2-B97F51BCE8E0}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "MagicTrader.Database", "MagicTrader.Database\MagicTrader.Database.sqlproj", "{2ABC258A-3353-41CF-B9DE-201DC26E4847}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicTrader.Loader", "MagicTrader.Loader\MagicTrader.Loader.csproj", "{64621F1E-785F-41AF-BDE8-5FF27ADB9677}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{270E5819-ABFF-4EC1-A055-A15FAFDF2122}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{270E5819-ABFF-4EC1-A055-A15FAFDF2122}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{270E5819-ABFF-4EC1-A055-A15FAFDF2122}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{270E5819-ABFF-4EC1-A055-A15FAFDF2122}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1595821F-548F-40B7-BAF2-B97F51BCE8E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1595821F-548F-40B7-BAF2-B97F51BCE8E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1595821F-548F-40B7-BAF2-B97F51BCE8E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1595821F-548F-40B7-BAF2-B97F51BCE8E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2ABC258A-3353-41CF-B9DE-201DC26E4847}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2ABC258A-3353-41CF-B9DE-201DC26E4847}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2ABC258A-3353-41CF-B9DE-201DC26E4847}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{2ABC258A-3353-41CF-B9DE-201DC26E4847}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2ABC258A-3353-41CF-B9DE-201DC26E4847}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2ABC258A-3353-41CF-B9DE-201DC26E4847}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{64621F1E-785F-41AF-BDE8-5FF27ADB9677}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64621F1E-785F-41AF-BDE8-5FF27ADB9677}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64621F1E-785F-41AF-BDE8-5FF27ADB9677}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64621F1E-785F-41AF-BDE8-5FF27ADB9677}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8334CA2B-4AE0-4728-88B6-08BEE76F2088}
+	EndGlobalSection
+EndGlobal
