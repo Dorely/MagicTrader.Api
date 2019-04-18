@@ -7,11 +7,24 @@ namespace MagicTrader.Core.Context
     {
         public MagicTraderContext()
         {
-
         }
 
         public MagicTraderContext(DbContextOptions<MagicTraderContext> options) : base(options)
         {
+        }
+
+        private string _connectString;
+        public MagicTraderContext(string connectString) : base()
+        {
+            _connectString = connectString;
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer(_connectString);
+            }
         }
 
         public DbSet<MagicSet> MagicSets { get; set; }

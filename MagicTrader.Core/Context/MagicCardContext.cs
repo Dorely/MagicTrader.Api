@@ -12,12 +12,12 @@ namespace MagicTrader.Core.Context
 {
     public interface IMagicCardContext
     {
-        Task<List<MagicCard>> GetCards(MagicCard parameters);
+        Task<List<MagicCard>> GetCards(MagicCardQueryParams parameters);
         Task<MagicCard> GetCard(string setCode, string cardName);
         Task<MagicCard> GetCard(Guid scryfallId);
-        Task<bool> InsertCardPage(List<MagicCard_Temp> cardPage);
-        Task<bool> MergeCards();
-        Task<bool> ResetTempTable();
+        Task InsertCardPage(List<MagicCard_Temp> cardPage);
+        Task MergeCards();
+        Task ResetTempTable();
 
     }
     public class MagicCardContext : IMagicCardContext
@@ -26,6 +26,11 @@ namespace MagicTrader.Core.Context
         public MagicCardContext(MagicTraderContext dbContext)
         {
             _dbContext = dbContext;
+        }
+
+        public MagicCardContext(string connectString)
+        {
+            _dbContext = new MagicTraderContext(connectString);
         }
 
         public async Task<MagicCard> GetCard(string setCode, string cardName)
@@ -38,7 +43,7 @@ namespace MagicTrader.Core.Context
             return await _dbContext.MagicCards.FirstOrDefaultAsync(x => x.ScryfallId == scryfallId);
         }
 
-        public async Task<List<MagicCard>> GetCards(MagicCard parameters)
+        public async Task<List<MagicCard>> GetCards(MagicCardQueryParams parameters)
         {
             var predicate = _dbContext.MagicCards.Where(x=>true);
 
@@ -50,24 +55,29 @@ namespace MagicTrader.Core.Context
             {
                 predicate = predicate.Where(x => x.CardName.ToLower().Contains(parameters.CardName.ToLower()));
             }
+            if (!string.IsNullOrEmpty(parameters.Language))
+            {
+                predicate = predicate.Where(x => x.Language == parameters.Language);
+            }
 
             return await predicate.ToListAsync();
         }
 
-        public async Task<bool> InsertCardPage(List<MagicCard_Temp> cardPage)
+        public async Task InsertCardPage(List<MagicCard_Temp> cardPage)
         {
             try
             {
                 _dbContext.MagicCards_Temp.AddRange(cardPage);
                 await _dbContext.SaveChangesAsync();
-                return true;
-            }catch(Exception)
+            }
+            catch (Exception e)
             {
-                return false;
+                Console.WriteLine(e.ToString());
+                throw;
             }
         }
 
-        public async Task<bool> MergeCards()
+        public async Task MergeCards()
         {
             try
             {
@@ -85,6 +95,7 @@ namespace MagicTrader.Core.Context
                         TARGET.CardName = SOURCE.CardName,
                         TARGET.ApiUri = SOURCE.ApiUri,
                         TARGET.ImageUri = SOURCE.ImageUri,
+                        TARGET.ImageUri2 = SOURCE.ImageUri2,
                         TARGET.TypeLine = SOURCE.TypeLine,
                         TARGET.OracleText = SOURCE.OracleText,
                         TARGET.ManaCost = SOURCE.ManaCost,
@@ -93,34 +104,40 @@ namespace MagicTrader.Core.Context
                         TARGET.FlavorText = SOURCE.FlavorText,
                         TARGET.Artist = SOURCE.Artist,
                         TARGET.PurchaseUri = SOURCE.PurchaseUri,
-                        TARGET.PriceUsd = SOURCE.PriceUsd
+                        TARGET.PriceUsd = SOURCE.PriceUsd,
+                        TARGET.PriceUsdFoil = SOURCE.PriceUsdFoil,
+                        TARGET.Language = SOURCE.Language
                         WHEN NOT MATCHED BY TARGET THEN
-                        INSERT (ScryfallId, SetCode, OracleId, MultiverseId, CardName, ApiUri, ImageUri, TypeLine, OracleText, ManaCost, CollectorNumber, Rarity, FlavorText, Artist, PurchaseUri, PriceUsd) 
-                        VALUES (SOURCE.ScryfallId, SOURCE.SetCode, SOURCE.OracleId, SOURCE.MultiverseId, SOURCE.CardName, SOURCE.ApiUri, SOURCE.ImageUri, SOURCE.TypeLine, SOURCE.OracleText, SOURCE.ManaCost, SOURCE.CollectorNumber, SOURCE.Rarity, SOURCE.FlavorText, SOURCE.Artist, SOURCE.PurchaseUri, SOURCE.PriceUsd)
+                        INSERT (ScryfallId, SetCode, OracleId, MultiverseId, CardName, ApiUri, ImageUri, ImageUri2, TypeLine, OracleText, ManaCost, CollectorNumber, Rarity, FlavorText, Artist, PurchaseUri, PriceUsd, PriceUsdFoil, Language) 
+                        VALUES (SOURCE.ScryfallId, SOURCE.SetCode, SOURCE.OracleId, SOURCE.MultiverseId, SOURCE.CardName, SOURCE.ApiUri, SOURCE.ImageUri, SOURCE.ImageUri2, SOURCE.TypeLine, SOURCE.OracleText, SOURCE.ManaCost, SOURCE.CollectorNumber, SOURCE.Rarity, SOURCE.FlavorText, SOURCE.Artist, SOURCE.PurchaseUri, SOURCE.PriceUsd, SOURCE.PriceUsdFoil, SOURCE.Language)
                         WHEN NOT MATCHED BY SOURCE THEN 
                         DELETE;");
                 await _dbContext.SaveChangesAsync();
-                return true;
+                
             }
             catch (Exception)
             {
-                return false;
+                throw;
             }
         }
 
-        public async Task<bool> ResetTempTable()
+        public async Task ResetTempTable()
         {
             try
             {
 
-                await _dbContext.Database.ExecuteSqlCommandAsync (@"DROP TABLE MagicCards_TEMP");
+                try
+                {
+                    await _dbContext.Database.ExecuteSqlCommandAsync(@"DROP TABLE MagicCards_TEMP");
+                }
+                catch (Exception) { }
                 await _dbContext.Database.ExecuteSqlCommandAsync (@"SELECT * INTO MagicCards_TEMP FROM [MagicCards] WHERE 1=0;");
                 await _dbContext.SaveChangesAsync();
-                return true;
+                
             }
             catch (Exception)
             {
-                return false;
+                throw;
             }
         }
     }

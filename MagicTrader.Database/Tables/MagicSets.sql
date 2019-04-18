@@ -1,10 +1,10 @@
 ﻿CREATE TABLE [dbo].[MagicSets]
 (
-	[SetCode] VARCHAR(10) NOT NULL,
-    [SetName] VARCHAR(100) NOT NULL,
-    [ApiUri] VARCHAR(350),
+	[SetCode] NVARCHAR(10) NOT NULL,
+    [SetName] NVARCHAR(100) NOT NULL,
+    [ApiUri] NVARCHAR(350),
     [ReleaseDate] DATETIME2(7),
-    [IconSvgUri] VARCHAR(350),
+    [IconSvgUri] NVARCHAR(350),
 	CONSTRAINT [MagicSets_PK] PRIMARY KEY ([SetCode])
 )
 GO

@@ -97,7 +97,11 @@ namespace MagicTrader.Core.Context
             try
             {
 
-                await _dbContext.Database.ExecuteSqlCommandAsync (@"DROP TABLE MagicSets_Temp");
+                try
+                {
+                    await _dbContext.Database.ExecuteSqlCommandAsync(@"DROP TABLE MagicSets_Temp");
+                }
+                catch (Exception) { }
                 await _dbContext.Database.ExecuteSqlCommandAsync (@"SELECT * INTO MagicSets_TEMP FROM [MagicSets] WHERE 1=0");
                 await _dbContext.SaveChangesAsync();
                 return true;

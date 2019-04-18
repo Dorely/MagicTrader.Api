@@ -18,6 +18,7 @@ namespace MagicTrader.Core.Models
         public string CardName { get; set; }
         public string ApiUri { get; set; }
         public string ImageUri { get; set; }
+        public string ImageUri2 { get; set; }
         public string TypeLine { get; set; }
         public string OracleText { get; set; }
         public string ManaCost { get; set; }
@@ -26,7 +27,16 @@ namespace MagicTrader.Core.Models
         public string FlavorText { get; set; }
         public string Artist { get; set; }
         public string PurchaseUri { get; set; }
-        public float? PriceUsd { get; set; }
+        public decimal? PriceUsd { get; set; }
+        public decimal? PriceUsdFoil { get; set; }
+        public string Language { get; set; }
+    }
+
+    public class MagicCardQueryParams
+    {
+        public string SetCode { get; set; }
+        public string CardName { get; set; }
+        public string Language { get; set; }
     }
 
     [Table("MagicCards_TEMP")]
@@ -40,6 +50,7 @@ namespace MagicTrader.Core.Models
         public string CardName { get; set; }
         public string ApiUri { get; set; }
         public string ImageUri { get; set; }
+        public string ImageUri2 { get; set; }
         public string TypeLine { get; set; }
         public string OracleText { get; set; }
         public string ManaCost { get; set; }
@@ -48,7 +59,9 @@ namespace MagicTrader.Core.Models
         public string FlavorText { get; set; }
         public string Artist { get; set; }
         public string PurchaseUri { get; set; }
-        public float? PriceUsd { get; set; }
+        public decimal? PriceUsd { get; set; }
+        public decimal? PriceUsdFoil { get; set; }
+        public string Language { get; set; }
     }
 
     public class ScryfallCards
@@ -198,7 +211,7 @@ namespace MagicTrader.Core.Models
         public bool StorySpotlight { get; set; }
 
         [JsonProperty("usd")]
-        public string Usd { get; set; }
+        public decimal? Usd { get; set; }
 
         [JsonProperty("eur")]
         public string Eur { get; set; }
@@ -211,6 +224,9 @@ namespace MagicTrader.Core.Models
 
         [JsonProperty("purchase_uris")]
         public PurchaseUris PurchaseUris { get; set; }
+
+        [JsonProperty("card_faces")]
+        public ScryfallCard[] CardFaces { get; set; }
     }
 
     public partial class ImageUris
@@ -273,10 +289,10 @@ namespace MagicTrader.Core.Models
     public partial class Prices
     {
         [JsonProperty("usd")]
-        public string Usd { get; set; }
+        public decimal? Usd { get; set; }
 
         [JsonProperty("usd_foil")]
-        public string UsdFoil { get; set; }
+        public decimal? UsdFoil { get; set; }
 
         [JsonProperty("eur")]
         public string Eur { get; set; }
@@ -308,4 +324,6 @@ namespace MagicTrader.Core.Models
         [JsonProperty("mtgtop8")]
         public string Mtgtop8 { get; set; }
     }
+
+
 }
